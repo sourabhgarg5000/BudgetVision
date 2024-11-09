@@ -40,11 +40,21 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             alert("Please fill out all fields.");
         }
-        document.getElementById('expense-date').addEventListener('focus', function(e) {
-          if (window.innerWidth <= 768) {
-            e.target.blur();
-          }
-        });
+        function updateCurrentDate() {
+          const dateElement = document.getElementById('expense-date');
+          const now = new Date();
+          const options = { 
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          };
+          dateElement.textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        // Update date immediately and then every minute
+        updateCurrentDate();
+        setInterval(updateCurrentDate, 60000);
     });
 
     function updateChart() {
