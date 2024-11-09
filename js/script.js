@@ -40,6 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             alert("Please fill out all fields.");
         }
+        document.getElementById('expense-date').addEventListener('focus', function(e) {
+          if (window.innerWidth <= 768) {
+            e.target.blur();
+          }
+        });
     });
 
     function updateChart() {
