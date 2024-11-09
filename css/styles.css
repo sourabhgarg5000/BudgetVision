@@ -1,0 +1,65 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #bad5ef;
+    color: #a29393;
+}
+#project-title {
+    font-size: 2.5rem;
+    /* Adjust the size of the whole title */
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+}
+.btn-primary{
+    margin:4px;
+}
+
+.budget,
+.vision {
+    font-size: 4rem;
+    /* Make first letter larger */
+    font-weight: 700;
+    /* Bold for emphasis */
+    color: #007bff;
+    /* Set a blue color for the first letter */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Adding some hover effect */
+.budget:hover,
+.vision:hover {
+    transform: scale(1.8);
+    /* Slightly enlarges the letter when hovered */
+   
+}
+
+/* Styling for the rest of the title */
+#project-title span:not(.budget):not(.vision) {
+    font-size: 2.5rem;
+    /* Keep the rest of the title at normal size */
+}
+.form-control{
+    margin: 4px;
+}
+h1 {
+    color: #2c3e50;
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+#expense-form input,
+#expense-form button {
+    border-radius: 8px;
+}
+
+#expense-table th {
+    text-transform: uppercase;
+    background-color: #34495e;
+    color: #fff;
+}
+#budget{
+    border-radius: 10px;
+}
