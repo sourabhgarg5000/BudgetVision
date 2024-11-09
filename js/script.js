@@ -48,6 +48,21 @@ document.addEventListener('DOMContentLoaded', () => {
             // Alert if any field is empty (line 45)
             alert("Please fill out all fields.");
         }
+        function updateCurrentDate() {
+          const dateElement = document.getElementById('expense-date');
+          const now = new Date();
+          const options = { 
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          };
+          dateElement.textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        // Update date immediately and then every minute
+        updateCurrentDate();
+        setInterval(updateCurrentDate, 60000);
     });
 
     // Function to update the chart with new data (line 48-55)
