@@ -94,6 +94,13 @@
     <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+  // Initialize Flatpickr for the input element
+  flatpickr("#expense-date", {
+    dateFormat: "d-m-Y", // This sets the format to DD-MM-YYYY
+    allowInput: true, // Allows typing the date manually
+  });
+</script>
 
     <script src="js/script.js"></script>
   </body>
