@@ -1,26 +1,33 @@
+flatpickr("#expense-date", {
+    dateFormat: "d-m-Y",  // dd-mm-yyyy format
+    placeholder: "dd-mm-yyyy"  // Set placeholder
+});
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const expenseForm = document.getElementById('expense-form');
     const expenseList = document.getElementById('expense-list');
 
+    // Arrays to store user input dynamically
     let categories = []; // Stores expense names
     let amounts = []; // Stores expense amounts
 
     // Handle form submission to add an expense
     expenseForm.addEventListener('submit', function (e) {
-        e.preventDefault();
+        e.preventDefault(); // Prevent form from refreshing the page
 
         // Get form values
         const name = document.getElementById('expense-name').value;
         const amount = parseFloat(document.getElementById('expense-amount').value);
         const date = document.getElementById('expense-date').value;
 
-        // Check if inputs are valid
+        // Check if inputs are valid (line 18-24)
         if (name && amount && date) {
-            // Add expense to arrays
-            categories.push(name);
-            amounts.push(amount);
+            // Add expense to arrays (line 26-27)
+            categories.push(name); // Add the name to the categories array
+            amounts.push(amount); // Add the amount to the amounts array
 
-            // Create table row
+            // Create table row dynamically to display on the page (line 29-34)
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${name}</td>
@@ -29,19 +36,21 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             expenseList.appendChild(row);
 
-            // Clear form fields
+            // Clear form fields (line 36)
             expenseForm.reset();
 
-            // Update the chart
+            // Update the chart with the new data (line 39)
             updateChart();
 
-            // Update total expenses and check against budget
+            // Update total expenses and check against budget (line 42)
             updateTotalExpenses();
         } else {
+            // Alert if any field is empty (line 45)
             alert("Please fill out all fields.");
         }
     });
 
+    // Function to update the chart with new data (line 48-55)
     function updateChart() {
         // Assuming you have the chart instance named `expenseChart`
         expenseChart.data.labels = categories; // Update chart labels with the categories array
@@ -50,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         expenseChart.update(); // Re-render the chart
     }
 
+    // Function to update total expenses and compare with the budget (line 57-74)
     function updateTotalExpenses() {
         // Calculate the total expenses
         const totalExpenses = amounts.reduce((acc, curr) => acc + curr, 0);
@@ -69,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Initialize the chart with empty data
+    // Initialize the chart with empty data (line 76-101)
     const ctx = document.getElementById('expenseChart').getContext('2d');
     const expenseChart = new Chart(ctx, {
         type: 'bar', // or 'pie' for a pie chart
@@ -103,28 +113,27 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-});
-document.getElementById('export-btn').addEventListener('click', function () {
-    let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "Category,Amount\n"; // Headers
-    // Replace with dynamically generated data
-    let expenseData = [
-        { category: 'Rent', amount: 1200 },
-        { category: 'Groceries', amount: 300 },
-        { category: 'Utilities', amount: 150 }
-    ];
 
-    expenseData.forEach(item => {
-        let row = item.category + "," + item.amount;
-        csvContent += row + "\n";
+    // Function to export the data as a CSV file (line 103-121)
+    document.getElementById('export-btn').addEventListener('click', function () {
+        let csvContent = "data:text/csv;charset=utf-8,";
+        csvContent += "Category,Amount,Date\n"; // Headers for CSV file
+        
+        // Loop through the categories and amounts arrays to create CSV rows (line 108-112)
+        categories.forEach((category, index) => {
+            const amount = amounts[index];
+            const date = document.getElementById('expense-date').value; // Get the date of expense entry
+            let row = `${category},${amount.toFixed(2)},${date}`;
+            csvContent += row + "\n"; // Add the row to CSV content
+        });
+
+        // Create download link for the CSV file (line 114-121)
+        let encodedUri = encodeURI(csvContent);
+        let downloadLink = document.createElement("a");
+        downloadLink.href = encodedUri;
+        downloadLink.download = "expenses.csv"; // Filename for the CSV file
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
     });
-
-    let encodedUri = encodeURI(csvContent);
-    let downloadLink = document.createElement("a");
-    downloadLink.href = encodedUri;
-    downloadLink.download = "expenses.csv";
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
 });
-
